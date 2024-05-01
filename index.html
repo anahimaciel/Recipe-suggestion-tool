@@ -1,0 +1,51 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recipe Suggestion Tool</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+       <div class="container">
+        <main>
+        <h1>Recipe Suggestion Tool</h1>
+        
+    	<form>
+        <label for="recipe">Name of recipe:</label><br>
+        <textarea id="name" name="name" rows="4" cols="50">							</textarea><br><br>
+        
+        <label for="ingredients">Ingredients:</label><br>
+        <textarea id="ingredients" name="ingredients" rows="4" cols="50">			</textarea><br><br>
+        
+        <label for="recipe">Instructions:</label><br>
+        <textarea id="recipe" name="recipe" rows="4" cols="50">						</textarea><br><br>
+		
+        </form>
+        
+        <input type="button" value="Add Recipe" onclick="addRecipe()">
+        <input type="button" value="Find Recipes" onclick="findRecipes()">
+        </main>
+
+        <nav class="sidebar">
+            <ul>
+                <li><a href="cookbook.html">Edit My Cookbook</a></li>
+                <li><a href="edit_cupboard.html">Edit My Cupboard</a></li>
+            </ul>
+        </nav>
+
+       </div>
+
+    <script>
+        function addRecipe() {
+            // Add your logic here to handle adding a recipe
+            alert('Recipe added!');
+        }
+
+        function findRecipes() {
+            // Add your logic here to handle finding recipes based on inputs
+            alert('Finding recipes...');
+        }
+    </script>
+    </body>
+</html>
