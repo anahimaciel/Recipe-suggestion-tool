@@ -12,6 +12,9 @@ def insert_recipe(con,cur):
         print("Recipe already in database")
     else:
         cur.execute("INSERT INTO recipes VALUES (?,?,?)",(recipe_name,ingredients,instructions))
+        for i in ingredients.split(','):
+            cur.execute(f""" if NOT EXISTS ( SELECT * from ingredients WHERE name = {i} )
+                            INSERT INTO ingredients VALUES(?,?)""",(i,False))
         con.commit() 
         print("Recipe succesfully added to database") 
     return
@@ -47,9 +50,14 @@ def insert_ingredient(con,cur):
                     WHERE name=?""",(ingr_name,))
     res=cur.fetchone()
     if res:
-        print("Ingredient already in database")
+        if(res['is_in_cupboard']):
+            print("Ingredient already in database")
+        else:
+            cur.execute("UPDATE ingredients SET is_in_cupboard=? WHERE name=?",(True,ingr_name))
+            con.commit() 
+            print("Ingredient succesfully added to database")
     else:
-        cur.execute("INSERT INTO ingredients VALUES (?)",(ingr_name,))
+        cur.execute("INSERT INTO ingredients VALUES (?,?)",(ingr_name,True))
         con.commit() 
         print("Ingredient succesfully added to database")     
     return
@@ -68,7 +76,7 @@ def delete_ingredient(con,cur):
     return
 
 def see_ingredients(con,cur):
-    cur.execute("""SELECT * FROM ingredients""")
+    cur.execute("""SELECT * FROM ingredients WHERE is_in_cupboard""")
     res=cur.fetchall()
     if res:
         print("Ingredients in database: ")
@@ -87,7 +95,9 @@ def see_ingredients(con,cur):
     #    for j in cur:
     #subquery returns lines with ingredients that arent on the cupboard
     #query=
-    """
+    """         WITH cupboardIngredients AS (
+                    SELECT 
+                )
                 SELECT name
                 FROM recipes
                 WHERE NOT EXISTS (          
@@ -95,5 +105,6 @@ def see_ingredients(con,cur):
                 )
     """         
     #return
+
 
 
