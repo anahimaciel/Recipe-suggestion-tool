@@ -5,8 +5,8 @@ import eel
 con= sq3.connect("./data/recipes.db") 
 cur=con.cursor()
 #cur.execute("CREATE TABLE IF NOT EXISTS recipes(quantities, measures, ingredients, howto)")
-cur.execute("CREATE TABLE IF NOT EXISTS recipes(name,ingredients, howto)")
-cur.execute("CREATE TABLE IF NOT EXISTS ingredients(name)")
+cur.execute("CREATE TABLE IF NOT EXISTS recipes(name,ingredients, instructions)")
+cur.execute("CREATE TABLE IF NOT EXISTS ingredients(name,is_in_cupboard)")
 
 while (True):
 
@@ -31,5 +31,8 @@ while (True):
             break
         case _ :
             print("Function not found")
+
+
+
 
 
