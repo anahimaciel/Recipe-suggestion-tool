@@ -109,6 +109,7 @@ def has_all_ingredients(cur,ingredients):
         else:
             return False
     return True
+
 def see_sugestions(con,cur):        # return recipes that have only ingredients on the cupboard
     cur.execute("""SELECT name, ingredients FROM recipes""")
     recipes=cur.fetchall()

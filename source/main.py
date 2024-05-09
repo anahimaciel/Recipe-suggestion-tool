@@ -2,7 +2,7 @@ import lib
 import sqlite3 as sq3 
 import eel
 
-con= sq3.connect("recipes.db") 
+con= sq3.connect("source/recipes.db") 
 cur=con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS recipes(name, ingredients, instructions)")
 cur.execute("CREATE TABLE IF NOT EXISTS ingredients(name PRIMARY KEY,is_in_cupboard)")
