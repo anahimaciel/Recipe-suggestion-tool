@@ -6,6 +6,7 @@ con= sq3.connect("recipes.db")
 cur=con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS recipes(name, ingredients, instructions)")
 cur.execute("CREATE TABLE IF NOT EXISTS ingredients(name PRIMARY KEY,is_in_cupboard)")
+#hi
 
 while (True):
 
