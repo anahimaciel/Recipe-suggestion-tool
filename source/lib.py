@@ -1,5 +1,4 @@
 import sqlite3 as sq3
-import re 
 
 def insert_recipe(con,cur):
     recipe_name=input("What is the name of the recipe? ")
@@ -98,34 +97,32 @@ def see_data(con,cur):
         print("Ingredients in database: ")
         for i in res:
             print(i)
+    return
 
-def split_string(text,delimiter=','):
-    return re.split(delimiter,text)
-
-def create_split_function(con):
-    con.create_function("split_string", 1, split_string)
-
+def has_all_ingredients(cur,ingredients):
+    for ingredient in ingredients:
+        cur.execute(""" SELECT 1 
+                        WHERE EXISTS (SELECT is_in_cupboard FROM ingredients WHERE name=?)""",(ingredient.strip(),))
+        res=cur.fetchone()
+        if res:
+            continue
+        else:
+            return False
+    return True
 def see_sugestions(con,cur):        # return recipes that have only ingredients on the cupboard
-    create_split_function(con)
-    query = """ 
-                WITH cupboardIngredients AS (
-                    SELECT name FROM ingredients WHERE is_in_cupboard
-                )
-                SELECT *
-                FROM recipes r
-                WHERE NOT EXISTS (
-                    SELECT trim(value) AS ingredient
-                    FROM (         
-                        SELECT * 
-                        FROM split_string(r.ingredients,','))
-                    WHERE ingredient NOT IN cupboardIngredients         
-                )          
-            """  
-    cur.execute(query)
-    res=cur.fetchall()
-    if res:
+    cur.execute("""SELECT name, ingredients FROM recipes""")
+    recipes=cur.fetchall()
+
+    cookable_recipes=[]
+    for recipe_name, ingredients_string in recipes:
+        ingredients_list = ingredients_string.split()
+        if (has_all_ingredients(cur,ingredients_list)):
+            cookable_recipes.append(recipe_name)
+            print("a")
+
+    if cookable_recipes:
         print("Suggested recipes: ")
-        for i in res:
+        for i in cookable_recipes:
             print(i)
     else:
         print("No recipes in cookbook with only available ingredients.")
